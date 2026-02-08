@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"your-mcp/internal/domain/model"
+	"bakemcp/internal/domain/model"
 )
 
 // FS writes files to the filesystem (abstraction for tests).

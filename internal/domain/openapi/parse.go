@@ -7,7 +7,7 @@ import (
 
 	"github.com/getkin/kin-openapi/openapi3"
 
-	"your-mcp/internal/domain/model"
+	"bakemcp/internal/domain/model"
 )
 
 // ErrOpenAPI2Unsupported is returned when the spec is OpenAPI 2.0 (Swagger).

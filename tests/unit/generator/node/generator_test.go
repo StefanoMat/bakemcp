@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	"your-mcp/internal/domain/model"
-	"your-mcp/internal/generator/node"
+	"bakemcp/internal/domain/model"
+	"bakemcp/internal/generator/node"
 )
 
 func TestGenerate_ProducesValidPackageJSON(t *testing.T) {

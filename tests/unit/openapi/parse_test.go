@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"your-mcp/internal/domain/openapi"
+	"bakemcp/internal/domain/openapi"
 )
 
 func TestParse_ValidOpenAPI3(t *testing.T) {

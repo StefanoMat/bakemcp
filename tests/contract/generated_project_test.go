@@ -7,9 +7,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"your-mcp/internal/domain/mapping"
-	"your-mcp/internal/domain/openapi"
-	"your-mcp/internal/generator/node"
+	"bakemcp/internal/domain/mapping"
+	"bakemcp/internal/domain/openapi"
+	"bakemcp/internal/generator/node"
 )
 
 // Contract: after generating with fixture OpenAPI, package.json exists and is valid JSON;

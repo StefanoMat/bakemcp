@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"your-mcp/internal/cli"
+	"bakemcp/internal/cli"
 )
 
 // Integration: build CLI flow (via cli.Run), generate into temp dir with fixture OpenAPI,

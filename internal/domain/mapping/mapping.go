@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"strings"
 
-	"your-mcp/internal/domain/model"
+	"bakemcp/internal/domain/model"
 )
 
 // OperationToMCPTool converts one OpenAPI operation to one MCP tool.

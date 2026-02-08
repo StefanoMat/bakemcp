@@ -1,7 +1,7 @@
 .PHONY: build test fmt lint install
 
 build:
-	go build -o bakemcp ./cmd/openapi2mcp
+	go build -o bakemcp ./cmd/bakemcp
 
 install: build
 	cp bakemcp /usr/local/bin/bakemcp

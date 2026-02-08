@@ -3,8 +3,8 @@ package mapping_test
 import (
 	"testing"
 
-	"your-mcp/internal/domain/mapping"
-	"your-mcp/internal/domain/model"
+	"bakemcp/internal/domain/mapping"
+	"bakemcp/internal/domain/model"
 )
 
 func TestOperationToMCPTool_NameFromOperationId(t *testing.T) {

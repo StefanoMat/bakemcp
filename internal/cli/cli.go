@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"os"
 
-	"your-mcp/internal/domain/mapping"
-	"your-mcp/internal/domain/openapi"
-	"your-mcp/internal/generator/node"
+	"bakemcp/internal/domain/mapping"
+	"bakemcp/internal/domain/openapi"
+	"bakemcp/internal/generator/node"
 )
 
 // Config holds parsed CLI arguments.

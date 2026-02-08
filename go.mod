@@ -1,4 +1,4 @@
-module your-mcp
+module bakemcp
 
 go 1.21
 
