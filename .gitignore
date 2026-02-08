@@ -18,10 +18,10 @@ Thumbs.db
 .idea/
 
 # Binary
-bakemcp
-openapi2mcp
-yourmcp
-mcpbake
+/bakemcp
+/openapi2mcp
+/yourmcp
+/mcpbake
 
 # GoReleaser
 dist/
