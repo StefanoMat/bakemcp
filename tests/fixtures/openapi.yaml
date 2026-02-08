@@ -1,0 +1,29 @@
+openapi: 3.0.3
+info:
+  title: Go API
+  description: Simple Go API with a ping endpoint.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+paths:
+  /ping:
+    get:
+      summary: Ping
+      description: Returns "pong" as plain text.
+      operationId: getPing
+      responses:
+        "200":
+          description: Successful response
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: pong
+        "405":
+          description: Method not allowed
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Method not allowed"

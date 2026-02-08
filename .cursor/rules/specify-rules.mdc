@@ -1,0 +1,29 @@
+# your-mcp Development Guidelines
+
+Auto-generated from all feature plans. Last updated: 2026-02-06
+
+## Active Technologies
+
+- Go 1.21+ (CLI); generated output is Node (TypeScript/JavaScript) with fastmcp + Go: OpenAPI 3.x parser (e.g. kin-openapi or go-openapi for read-only parse); Node (generated): fastmcp, package.json (001-openapi-to-mcp)
+
+## Project Structure
+
+```text
+src/
+tests/
+```
+
+## Commands
+
+npm test && npm run lint
+
+## Code Style
+
+Go 1.21+ (CLI); generated output is Node (TypeScript/JavaScript) with fastmcp: Follow standard conventions
+
+## Recent Changes
+
+- 001-openapi-to-mcp: Added Go 1.21+ (CLI); generated output is Node (TypeScript/JavaScript) with fastmcp + Go: OpenAPI 3.x parser (e.g. kin-openapi or go-openapi for read-only parse); Node (generated): fastmcp, package.json
+
+<!-- MANUAL ADDITIONS START -->
+<!-- MANUAL ADDITIONS END -->
