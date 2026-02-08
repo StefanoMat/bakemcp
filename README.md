@@ -138,7 +138,9 @@ make fmt       # format code
 make lint      # vet + format
 make install   # build + install to /usr/local/bin
 ```
-
+## Next steps
+ - HTTP Stream
+ - Authentication
 ## License
 
 MIT
