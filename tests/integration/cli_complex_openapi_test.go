@@ -314,7 +314,8 @@ func TestCLI_ComplexOpenAPI_ParseAndMapOperations(t *testing.T) {
 			t.Fatal("cannot find createorder in index.js")
 		}
 		// Look at the surrounding content for this tool's fetch call
-		surroundingEnd := toolIdx + 500
+		// (window is large because Zod schemas with all parameters are included)
+		surroundingEnd := toolIdx + 5000
 		if surroundingEnd > len(entryContent) {
 			surroundingEnd = len(entryContent)
 		}
@@ -332,7 +333,7 @@ func TestCLI_ComplexOpenAPI_ParseAndMapOperations(t *testing.T) {
 		if toolIdx == -1 {
 			t.Fatal("cannot find updateorderstatus in index.js")
 		}
-		surroundingEnd := toolIdx + 500
+		surroundingEnd := toolIdx + 5000
 		if surroundingEnd > len(entryContent) {
 			surroundingEnd = len(entryContent)
 		}
@@ -347,7 +348,7 @@ func TestCLI_ComplexOpenAPI_ParseAndMapOperations(t *testing.T) {
 		if toolIdx == -1 {
 			t.Fatal("cannot find adjustinventory in index.js")
 		}
-		surroundingEnd := toolIdx + 500
+		surroundingEnd := toolIdx + 5000
 		if surroundingEnd > len(entryContent) {
 			surroundingEnd = len(entryContent)
 		}
@@ -365,18 +366,15 @@ func TestCLI_ComplexOpenAPI_ParseAndMapOperations(t *testing.T) {
 
 	// ─── Sub-test: path parameter endpoints ─────────────────────────────
 	t.Run("PathParams_productId_orderId_customerId", func(t *testing.T) {
-		pathParamPaths := []string{
-			"/products/{productId}",
-			"/orders/{orderId}",
-			"/customers/{customerId}",
-			"/products/{productId}/reviews",
-			"/customers/{customerId}/orders",
-			"/inventory/{productId}/adjust",
-		}
-		for _, p := range pathParamPaths {
-			if !strings.Contains(entryContent, p) {
-				t.Errorf("index.js missing path with param: %s", p)
+		// Path params should appear in Zod schemas and URL template literals
+		for _, paramName := range []string{"productId", "orderId", "customerId"} {
+			if !strings.Contains(entryContent, paramName) {
+				t.Errorf("index.js missing path parameter %q", paramName)
 			}
+		}
+		// Verify encodeURIComponent is used for path param interpolation
+		if !strings.Contains(entryContent, "encodeURIComponent") {
+			t.Error("index.js should use encodeURIComponent for path params")
 		}
 	})
 
@@ -386,7 +384,7 @@ func TestCLI_ComplexOpenAPI_ParseAndMapOperations(t *testing.T) {
 		if toolIdx == -1 {
 			t.Fatal("cannot find deleteproduct in index.js")
 		}
-		surroundingEnd := toolIdx + 500
+		surroundingEnd := toolIdx + 5000
 		if surroundingEnd > len(entryContent) {
 			surroundingEnd = len(entryContent)
 		}
@@ -402,7 +400,7 @@ func TestCLI_ComplexOpenAPI_ParseAndMapOperations(t *testing.T) {
 		if toolIdx == -1 {
 			t.Fatal("cannot find updateproduct in index.js")
 		}
-		surroundingEnd := toolIdx + 500
+		surroundingEnd := toolIdx + 5000
 		if surroundingEnd > len(entryContent) {
 			surroundingEnd = len(entryContent)
 		}

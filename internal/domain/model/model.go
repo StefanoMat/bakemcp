@@ -24,11 +24,27 @@ type RequestBody struct {
 	Schema   map[string]interface{}
 }
 
+// MCPToolParam represents a single parameter for an MCP tool (from OpenAPI path/query/header params).
+type MCPToolParam struct {
+	Name     string
+	In       string // path, query, header
+	Required bool
+	Schema   map[string]interface{}
+}
+
+// MCPToolBody represents the request body schema for an MCP tool.
+type MCPToolBody struct {
+	Required bool
+	Schema   map[string]interface{}
+}
+
 // MCPTool represents an MCP tool derived from an OpenAPI operation.
 type MCPTool struct {
 	Name        string
 	Description string
 	InputSchema map[string]interface{} // JSON Schema for tool arguments
+	Params      []MCPToolParam         // Individual parameters (path, query, header)
+	Body        *MCPToolBody           // Request body schema
 	Method      string                 // HTTP method (GET, POST, etc.)
 	Path        string                 // API path (e.g. /ping)
 	BaseURL     string                 // Base URL from OpenAPI servers (e.g. http://localhost:8080)

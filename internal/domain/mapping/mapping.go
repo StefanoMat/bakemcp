@@ -18,10 +18,31 @@ func OperationToMCPTool(op *model.Operation, baseURL string) *model.MCPTool {
 		desc = fmt.Sprintf("%s %s", op.Method, op.Path)
 	}
 	schema := buildInputSchema(op)
+
+	var params []model.MCPToolParam
+	for _, p := range op.Parameters {
+		params = append(params, model.MCPToolParam{
+			Name:     p.Name,
+			In:       p.In,
+			Required: p.Required,
+			Schema:   p.Schema,
+		})
+	}
+
+	var body *model.MCPToolBody
+	if op.RequestBody != nil {
+		body = &model.MCPToolBody{
+			Required: op.RequestBody.Required,
+			Schema:   op.RequestBody.Schema,
+		}
+	}
+
 	return &model.MCPTool{
 		Name:        name,
 		Description: desc,
 		InputSchema: schema,
+		Params:      params,
+		Body:        body,
 		Method:      strings.ToUpper(op.Method),
 		Path:        op.Path,
 		BaseURL:     baseURL,
