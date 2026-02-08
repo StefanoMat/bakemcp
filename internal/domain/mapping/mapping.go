@@ -84,7 +84,12 @@ func pathToName(path string) string {
 	return sanitizeName(path)
 }
 
+// camelBoundary matches transitions like aB (lowercase→uppercase) or ABc (acronym end).
+var camelBoundary = regexp.MustCompile(`([a-z0-9])([A-Z])`)
+
 func sanitizeName(s string) string {
+	// Insert underscore at camelCase boundaries: listProducts -> list_Products
+	s = camelBoundary.ReplaceAllString(s, "${1}_${2}")
 	s = nonID.ReplaceAllString(s, "_")
 	s = strings.Trim(s, "_")
 	s = strings.ToLower(s)

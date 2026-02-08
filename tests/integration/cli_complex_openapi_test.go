@@ -87,26 +87,26 @@ func TestCLI_ComplexOpenAPI_FullPipeline(t *testing.T) {
 
 	// All 20 expected tool names derived from operationIds in the complex fixture
 	expectedTools := []string{
-		"listproducts",
-		"createproduct",
-		"getproduct",
-		"updateproduct",
-		"deleteproduct",
-		"listproductreviews",
-		"createproductreview",
-		"listorders",
-		"createorder",
-		"getorder",
-		"updateorderstatus",
-		"listcustomers",
-		"createcustomer",
-		"getcustomer",
-		"updatecustomer",
-		"listcustomerorders",
-		"listinventory",
-		"adjustinventory",
-		"getsalesanalytics",
-		"registerwebhook",
+		"list_products",
+		"create_product",
+		"get_product",
+		"update_product",
+		"delete_product",
+		"list_product_reviews",
+		"create_product_review",
+		"list_orders",
+		"create_order",
+		"get_order",
+		"update_order_status",
+		"list_customers",
+		"create_customer",
+		"get_customer",
+		"update_customer",
+		"list_customer_orders",
+		"list_inventory",
+		"adjust_inventory",
+		"get_sales_analytics",
+		"register_webhook",
 	}
 
 	for _, toolName := range expectedTools {
@@ -285,31 +285,31 @@ func TestCLI_ComplexOpenAPI_ParseAndMapOperations(t *testing.T) {
 	// ─── Sub-test: operations with query-heavy endpoints ────────────────
 	t.Run("ListProducts_has_many_query_filters", func(t *testing.T) {
 		// listProducts should appear with the /products path
-		if !strings.Contains(entryContent, "listproducts") {
-			t.Fatal("missing listproducts tool")
+		if !strings.Contains(entryContent, "list_products") {
+			t.Fatal("missing list_products tool")
 		}
 	})
 
 	t.Run("ListOrders_has_date_and_status_filters", func(t *testing.T) {
-		if !strings.Contains(entryContent, "listorders") {
-			t.Fatal("missing listorders tool")
+		if !strings.Contains(entryContent, "list_orders") {
+			t.Fatal("missing list_orders tool")
 		}
 	})
 
 	t.Run("SalesAnalytics_has_required_date_params", func(t *testing.T) {
-		if !strings.Contains(entryContent, "getsalesanalytics") {
-			t.Fatal("missing getsalesanalytics tool")
+		if !strings.Contains(entryContent, "get_sales_analytics") {
+			t.Fatal("missing get_sales_analytics tool")
 		}
 	})
 
 	// ─── Sub-test: operations with bodies ───────────────────────────────
 	t.Run("CreateOrder_complex_nested_body", func(t *testing.T) {
-		if !strings.Contains(entryContent, "createorder") {
-			t.Fatal("missing createorder tool")
+		if !strings.Contains(entryContent, "create_order") {
+			t.Fatal("missing create_order tool")
 		}
 		// The tool should have POST method
 		// Index.js should contain the tool and POST method
-		toolIdx := strings.Index(entryContent, `"createorder"`)
+		toolIdx := strings.Index(entryContent, `"create_order"`)
 		if toolIdx == -1 {
 			t.Fatal("cannot find createorder in index.js")
 		}
@@ -329,9 +329,9 @@ func TestCLI_ComplexOpenAPI_ParseAndMapOperations(t *testing.T) {
 	})
 
 	t.Run("UpdateOrderStatus_patch_with_body", func(t *testing.T) {
-		toolIdx := strings.Index(entryContent, `"updateorderstatus"`)
+		toolIdx := strings.Index(entryContent, `"update_order_status"`)
 		if toolIdx == -1 {
-			t.Fatal("cannot find updateorderstatus in index.js")
+			t.Fatal("cannot find update_order_status in index.js")
 		}
 		surroundingEnd := toolIdx + 5000
 		if surroundingEnd > len(entryContent) {
@@ -344,9 +344,9 @@ func TestCLI_ComplexOpenAPI_ParseAndMapOperations(t *testing.T) {
 	})
 
 	t.Run("AdjustInventory_post_with_body_and_path_param", func(t *testing.T) {
-		toolIdx := strings.Index(entryContent, `"adjustinventory"`)
+		toolIdx := strings.Index(entryContent, `"adjust_inventory"`)
 		if toolIdx == -1 {
-			t.Fatal("cannot find adjustinventory in index.js")
+			t.Fatal("cannot find adjust_inventory in index.js")
 		}
 		surroundingEnd := toolIdx + 5000
 		if surroundingEnd > len(entryContent) {
@@ -359,8 +359,8 @@ func TestCLI_ComplexOpenAPI_ParseAndMapOperations(t *testing.T) {
 	})
 
 	t.Run("RegisterWebhook_post_with_events_array_body", func(t *testing.T) {
-		if !strings.Contains(entryContent, "registerwebhook") {
-			t.Fatal("missing registerwebhook tool")
+		if !strings.Contains(entryContent, "register_webhook") {
+			t.Fatal("missing register_webhook tool")
 		}
 	})
 
@@ -380,9 +380,9 @@ func TestCLI_ComplexOpenAPI_ParseAndMapOperations(t *testing.T) {
 
 	// ─── Sub-test: DELETE method ────────────────────────────────────────
 	t.Run("DeleteProduct_uses_DELETE", func(t *testing.T) {
-		toolIdx := strings.Index(entryContent, `"deleteproduct"`)
+		toolIdx := strings.Index(entryContent, `"delete_product"`)
 		if toolIdx == -1 {
-			t.Fatal("cannot find deleteproduct in index.js")
+			t.Fatal("cannot find delete_product in index.js")
 		}
 		surroundingEnd := toolIdx + 5000
 		if surroundingEnd > len(entryContent) {
@@ -396,9 +396,9 @@ func TestCLI_ComplexOpenAPI_ParseAndMapOperations(t *testing.T) {
 
 	// ─── Sub-test: PUT method ───────────────────────────────────────────
 	t.Run("UpdateProduct_uses_PUT", func(t *testing.T) {
-		toolIdx := strings.Index(entryContent, `"updateproduct"`)
+		toolIdx := strings.Index(entryContent, `"update_product"`)
 		if toolIdx == -1 {
-			t.Fatal("cannot find updateproduct in index.js")
+			t.Fatal("cannot find update_product in index.js")
 		}
 		surroundingEnd := toolIdx + 5000
 		if surroundingEnd > len(entryContent) {

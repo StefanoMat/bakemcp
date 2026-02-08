@@ -15,7 +15,7 @@ func TestOperationToMCPTool_NameFromOperationId(t *testing.T) {
 		Summary:     "Get user",
 	}
 	tool := mapping.OperationToMCPTool(op, "http://localhost:8080")
-	if tool.Name != "getuser" {
+	if tool.Name != "get_user" {
 		t.Errorf("name: got %q (sanitized from operationId)", tool.Name)
 	}
 	if tool.Description != "Get user" {
