@@ -1,4 +1,4 @@
-.PHONY: build test fmt lint install
+.PHONY: build test fmt lint install snapshot
 
 build:
 	go build -o bakemcp ./cmd/bakemcp
@@ -15,3 +15,6 @@ fmt:
 
 lint: fmt
 	go vet ./...
+
+snapshot:
+	goreleaser release --snapshot --clean

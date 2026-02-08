@@ -1,0 +1,51 @@
+version: 2
+
+project_name: bakemcp
+
+builds:
+  - main: ./cmd/bakemcp
+    binary: bakemcp
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - linux
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}}
+
+archives:
+  - format: tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
+
+brews:
+  - repository:
+      owner: stefanoMat
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+    directory: Formula
+    homepage: "https://github.com/stefanoMat/bakemcp"
+    description: "Turn any OpenAPI 3.x spec into a ready-to-run MCP server"
+    license: "MIT"
+    install: |
+      bin.install "bakemcp"
+    test: |
+      system "#{bin}/bakemcp", "--help"
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^ci:"
+
+release:
+  github:
+    owner: stefanoMat
+    name: bakemcp

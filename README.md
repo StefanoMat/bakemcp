@@ -17,6 +17,24 @@ That's it. Your MCP server is running.
 
 ## Installation
 
+### Homebrew (recommended)
+
+```bash
+brew install stefanoMat/tap/bakemcp
+```
+
+No Go required — installs a pre-built binary.
+
+### Download binary
+
+Grab the latest release for your platform from [GitHub Releases](https://github.com/stefanoMat/bakemcp/releases), extract, and move to your PATH:
+
+```bash
+# Example for macOS arm64
+tar -xzf bakemcp_darwin_arm64.tar.gz
+sudo mv bakemcp /usr/local/bin/
+```
+
 ### From source
 
 Requires Go 1.21+.
@@ -28,13 +46,6 @@ make install
 ```
 
 This builds the binary and copies it to `/usr/local/bin/bakemcp`.
-
-### Build only
-
-```bash
-make build
-./bakemcp --help
-```
 
 ## Usage
 

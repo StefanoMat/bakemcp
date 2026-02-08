@@ -23,6 +23,9 @@ openapi2mcp
 yourmcp
 mcpbake
 
+# GoReleaser
+dist/
+
 # Generated / temp
 *.log
 .env
