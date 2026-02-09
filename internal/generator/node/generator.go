@@ -319,7 +319,9 @@ func buildExecuteFn(t *model.MCPTool) string {
 		lines = append(lines, fmt.Sprintf("    const res = await fetch(%s, { method: %q });", fetchURL, t.Method))
 	}
 
-	lines = append(lines, "    return await res.text();")
+	lines = append(lines, "    const body = await res.text();")
+	lines = append(lines, `    if (!res.ok) throw new Error("HTTP " + res.status + ": " + body);`)
+	lines = append(lines, "    return body;")
 
 	argsStr := "()"
 	if needsArgs {
