@@ -70,10 +70,19 @@ func packageJSON(tools []*model.MCPTool) map[string]interface{} {
 // ---------------------------------------------------------------------------
 
 func entryScript(tools []*model.MCPTool) string {
+	// Extract the base URL from the first tool (all share the same base).
+	defaultBaseURL := ""
+	if len(tools) > 0 {
+		defaultBaseURL = tools[0].BaseURL
+	}
+
 	var b strings.Builder
 	b.WriteString(`import { FastMCP } from "fastmcp";
 import { z } from "zod";
 
+`)
+	b.WriteString(fmt.Sprintf("const BASE_URL = process.env.BASE_URL || %q;\n", defaultBaseURL))
+	b.WriteString(`
 const server = new FastMCP({ name: "generated-mcp", version: "1.0.0" });
 `)
 	for _, t := range tools {
@@ -271,7 +280,7 @@ func buildExecuteFn(t *model.MCPTool) string {
 	if useDestructuring {
 		paramPrefix = ""
 	}
-	urlExpr := buildURLExpr(t.BaseURL, t.Path, pathParams, paramPrefix)
+	urlExpr := buildURLExpr(t.Path, pathParams, paramPrefix)
 
 	if hasQueryParams || hasPathParams {
 		lines = append(lines, fmt.Sprintf("    let url = %s;", urlExpr))
@@ -319,17 +328,17 @@ func buildExecuteFn(t *model.MCPTool) string {
 	return fmt.Sprintf("async %s => {\n%s\n  }", argsStr, strings.Join(lines, "\n"))
 }
 
-func buildURLExpr(baseURL, path string, pathParams []model.MCPToolParam, paramPrefix string) string {
-	fullURL := baseURL + path
+func buildURLExpr(path string, pathParams []model.MCPToolParam, paramPrefix string) string {
 	if len(pathParams) == 0 {
-		return fmt.Sprintf("%q", fullURL)
+		// No path params → simple string concatenation: BASE_URL + "/path"
+		return fmt.Sprintf("BASE_URL + %q", path)
 	}
 	// Convert {param} to ${encodeURIComponent(prefix.param)} in template literal
-	result := pathParamRe.ReplaceAllStringFunc(fullURL, func(match string) string {
+	result := pathParamRe.ReplaceAllStringFunc(path, func(match string) string {
 		name := match[1 : len(match)-1] // strip { and }
 		return fmt.Sprintf("${encodeURIComponent(%s%s)}", paramPrefix, name)
 	})
-	return fmt.Sprintf("`%s`", result)
+	return fmt.Sprintf("`${BASE_URL}%s`", result)
 }
 
 func filterByIn(params []model.MCPToolParam, in string) []model.MCPToolParam {

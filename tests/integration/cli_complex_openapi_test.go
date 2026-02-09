@@ -134,23 +134,29 @@ func TestCLI_ComplexOpenAPI_FullPipeline(t *testing.T) {
 		t.Error("index.js missing server.start() call")
 	}
 
-	// ─── Phase 4: Verify base URL is used correctly ─────────────────────
-	if !strings.Contains(entryContent, "https://api.example.com/v2") {
-		t.Error("index.js missing base URL from OpenAPI servers")
+	// ─── Phase 4: Verify base URL is configurable via env ───────────────
+	if !strings.Contains(entryContent, "process.env.BASE_URL") {
+		t.Error("index.js missing process.env.BASE_URL")
+	}
+	if !strings.Contains(entryContent, `"https://api.example.com/v2"`) {
+		t.Error("index.js missing default base URL from OpenAPI servers")
+	}
+	if !strings.Contains(entryContent, "BASE_URL") {
+		t.Error("index.js missing BASE_URL constant")
 	}
 
-	// Verify various paths are constructed correctly
+	// Verify various paths are constructed correctly (now relative to BASE_URL)
 	expectedPaths := []string{
-		"https://api.example.com/v2/products",
-		"https://api.example.com/v2/orders",
-		"https://api.example.com/v2/customers",
-		"https://api.example.com/v2/inventory",
-		"https://api.example.com/v2/analytics/sales",
-		"https://api.example.com/v2/webhooks",
+		"/products",
+		"/orders",
+		"/customers",
+		"/inventory",
+		"/analytics/sales",
+		"/webhooks",
 	}
 	for _, path := range expectedPaths {
 		if !strings.Contains(entryContent, path) {
-			t.Errorf("index.js missing expected URL %q", path)
+			t.Errorf("index.js missing expected path %q", path)
 		}
 	}
 
