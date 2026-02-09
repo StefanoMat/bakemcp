@@ -49,16 +49,57 @@ func OperationToMCPTool(op *model.Operation, baseURL string) *model.MCPTool {
 	}
 }
 
-// OperationsToMCPTools maps each operation to one MCP tool.
+// OperationsToMCPTools maps each operation to one MCP tool, ensuring unique
+// and descriptive tool names. It detects auto-generated numeric suffixes
+// (e.g. create_1, updateById_1) and name collisions, falling back to
+// path-based naming for disambiguation.
 func OperationsToMCPTools(ops []*model.Operation, baseURL string) []*model.MCPTool {
 	tools := make([]*model.MCPTool, 0, len(ops))
+
+	// Pass 1: generate all tools with default naming.
 	for _, op := range ops {
 		tools = append(tools, OperationToMCPTool(op, baseURL))
 	}
+
+	// Pass 2: detect bad names (numeric suffix or collision) and fix them.
+	nameCount := make(map[string]int)
+	for _, t := range tools {
+		nameCount[t.Name]++
+	}
+	for i, t := range tools {
+		if nameCount[t.Name] > 1 || numericSuffix.MatchString(t.Name) {
+			tools[i].Name = pathBasedName(ops[i])
+		}
+	}
+
+	// Pass 3: final dedup — if collisions remain, append _2, _3, etc.
+	seen := make(map[string]int)
+	for i, t := range tools {
+		seen[t.Name]++
+		if seen[t.Name] > 1 {
+			tools[i].Name = fmt.Sprintf("%s_%d", t.Name, seen[t.Name])
+		}
+	}
+
 	return tools
 }
 
 var nonID = regexp.MustCompile(`[^a-zA-Z0-9_]+`)
+
+// numericSuffix detects auto-generated suffixes like _1, _2 appended by
+// frameworks (e.g. SpringDoc, Swagger Codegen) when operationIds collide.
+var numericSuffix = regexp.MustCompile(`_\d+$`)
+
+// pathBasedName generates a tool name from the HTTP method and path,
+// ignoring the operationId. Used as fallback for bad operationIds.
+func pathBasedName(op *model.Operation) string {
+	pathPart := strings.Trim(pathToName(op.Path), "_")
+	methodPart := strings.ToLower(op.Method)
+	if pathPart == "" {
+		return methodPart
+	}
+	return methodPart + "_" + pathPart
+}
 
 func toolName(op *model.Operation) string {
 	if op.OperationID != "" {
